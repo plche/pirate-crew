@@ -1,7 +1,7 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {Link, withRouter} from "react-router-dom";
-import DeleteButton from "../DeleteButton/DeleteButton";
+import {Link} from "react-router-dom";
+import DeleteButton from "../DeleteButton/DeleteButton.jsx";
 
 const PirateList = props => {
     const [pirates, setPirates] = useState([]);
@@ -61,4 +61,4 @@ const PirateList = props => {
     );
 }
 
-export default withRouter(PirateList);
+export default PirateList;

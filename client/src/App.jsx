@@ -1,13 +1,14 @@
-import {Link, Route, Switch, withRouter} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import './App.css';
-import Main from "./views/Main";
-import Detail from "./views/Detail";
-import Update from "./views/Update";
-import Create from "./views/Create";
-import Register from "./views/Register";
-import Login from "./views/Login";
+import Main from "./views/Main.jsx";
+import Detail from "./views/Detail.jsx";
+import Update from "./views/Update.jsx";
+import Create from "./views/Create.jsx";
+import Register from "./views/Register.jsx";
+import Login from "./views/Login.jsx";
 import {useState} from "react";
 import axios from "axios";
+import LoginFirst from "./views/LoginFirst.jsx";
 
 const App = props => {
     const [email, setEmail] = useState('');
@@ -30,7 +31,7 @@ const App = props => {
                 props.history.push('/pirates');
             })
             .catch(err => setErrorMsg(err.response.statusText));
-    }
+    };
 
     const loginUser = event => {
         event.preventDefault();
@@ -49,7 +50,7 @@ const App = props => {
                 props.history.push('/pirates');
             })
             .catch(err => setErrorMsg(err.response.statusText));
-    }
+    };
 
     const authorize = () => {
         const config = {
@@ -63,37 +64,31 @@ const App = props => {
                 console.log("App:63: err.response.statusText =", err.response.statusText);
                 // redirect to...?
             });
-    }
+    };
 
     return (
         <div className="App">
             <h1>Welcome to Pirate Crew</h1>
-            <Switch>
-                <Route path='/register' render={routeProps => <Register registerUser={registerUser}
-                                                                        {...routeProps} />} />
-                <Route path='/login' render={routeProps => <Login loginUser={loginUser}
-                                                                  {...routeProps} />} />
-                <Route path='/pirate/:id/edit' render={routeProps => {
-                    authorize();
-                    if (email !== '') return (<Update {...routeProps} />)
-                    else return (<div>You need to <Link to='/login'>login</Link> first...</div>)
-                }} />
-                <Route path='/pirate/new' render={routeProps => {
-                    authorize();
-                    if (email !== '') return (<Create {...routeProps} />)
-                    else return (<div>You need to <Link to='/login'>login</Link> first...</div>)
-                }} />
-                <Route path='/pirate/:id' render={routeProps => {
-                    authorize();
-                    if (email !== '') return (<Detail {...routeProps} />)
-                    else return (<div>You need to <Link to='/login'>login</Link> first...</div>)
-                }} />
-                <Route path='/pirates' render={routeProps => {
-                    authorize();
-                    if (email !== '') return (<Main {...routeProps} />)
-                    else return (<div>You need to <Link to='/login'>login</Link> first...</div>)
-                }} />
-            </Switch>
+            <Routes>
+                <Route path='/register' element={<Register registerUser={registerUser} />} />
+                <Route path='/login' element={<Login loginUser={loginUser} />} />
+                <Route path='/pirate/:id/edit'>
+                    {authorize()}
+                    {email !== '' ? <Update /> : <LoginFirst />}
+                </Route>
+                <Route path='/pirate/new'>
+                    {authorize()}
+                    {email !== '' ? <Create /> : <LoginFirst />}
+                </Route>
+                <Route path='/pirate/:id'>
+                    {authorize()}
+                    {email !== '' ? <Detail /> : <LoginFirst />}
+                </Route>
+                <Route path='/pirates'>
+                    {authorize()}
+                    {email !== '' ? <Main /> : <LoginFirst />}
+                </Route>
+            </Routes>
             <div>
                 {errorMsg}
             </div>
@@ -101,4 +96,4 @@ const App = props => {
     );
 }
 
-export default withRouter(App);
+export default App

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import PirateForm from "../components/PirateForm/PirateForm";
+import PirateForm from "../components/PirateForm/PirateForm.jsx";
 import {Link} from "react-router-dom";
 
 const Update = props => {

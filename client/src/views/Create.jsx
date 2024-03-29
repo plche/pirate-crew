@@ -1,6 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
-import PirateForm from "../components/PirateForm/PirateForm";
+import PirateForm from "../components/PirateForm/PirateForm.jsx";
 
 const Create = props => {
     //Create an array to store errors from the API

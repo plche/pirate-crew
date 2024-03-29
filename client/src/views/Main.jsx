@@ -1,4 +1,4 @@
-import PirateList from "../components/PirateList/PirateList";
+import PirateList from "../components/PirateList/PirateList.jsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
